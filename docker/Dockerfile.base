@@ -1,0 +1,35 @@
+FROM ubuntu:23.04
+
+ENV NODE_VERSION=16.0.0
+ENV ARCH=x64
+
+# Install base tools
+RUN apt update &&\
+    apt install -y gnupg2 \
+    wget \
+    curl \
+    nginx
+
+# Install all the packages needed
+RUN wget -qO- https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH.tar.gz | tar xvz -C /usr/local/ &&\
+  ln -s /usr/local/node-v${NODE_VERSION}-linux-${ARCH}/bin/node /usr/local/bin/node &&\
+  ln -s /usr/local/node-v${NODE_VERSION}-linux-${ARCH}/bin/npm /usr/local/bin/npm &&\
+  ln -s /usr/local/bin/node /usr/local/bin/nodejs &&\
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&\
+  apt update &&\
+  apt install -y yarn &&\
+  node --version &&\
+  npm --version &&\
+  yarn --version
+
+WORKDIR /app
+COPY . ./
+
+# Install the dependencies in the baes image for speeding up the next build.
+RUN yarn
+
+# Forward request and error logs to Docker log collector
+# https://www.nginx.com/blog/deploying-nginx-nginx-plus-docker/
+RUN ln -sf /dev/stdout /var/log/nginx/access.log &&\
+    ln -sf /dev/stderr /var/log/nginx/error.log
