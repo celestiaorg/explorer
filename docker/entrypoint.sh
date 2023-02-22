@@ -1,5 +1,6 @@
 #!/bin/bash
 PATH_TO_CHAINS="/app/src/chains/"
+DEFAULT_CHAIN_NAME="arabica"
 
 # check if the chains folder is empty, if so, we generate a default one
 if [ -z "$(ls -A $PATH_TO_CHAINS/mainnet/)" ]; then
@@ -7,7 +8,7 @@ if [ -z "$(ls -A $PATH_TO_CHAINS/mainnet/)" ]; then
     echo "Not found any file, creating the default one..."
     echo "================================================"
     mkdir -p ${PATH_TO_CHAINS}/mainnet/
-    cat <<EOF > ${PATH_TO_CHAINS}/mainnet/arabica.json
+    cat <<EOF > ${PATH_TO_CHAINS}/mainnet/${DEFAULT_CHAIN_NAME}.json
 {
   "chain_name": "arabica",
   "coingecko": "",
@@ -40,22 +41,14 @@ echo "================================================"
 echo "[INFO] Building the app..."
 echo "================================================"
 yarn build
-
 echo "================================================"
 echo "[INFO] The service has been built"
 echo "================================================"
-
+echo "[INFO] Copying the dist folder to the nginx"
 echo "================================================"
-ls -tlra ./
 cp -R dist/* /usr/share/nginx/html/
-echo "================================================"
-
-ls -ltra /usr/share/nginx/html
 
 echo "================================================"
 echo "[INFO] Starting Nginx..."
 echo "================================================"
-#nginx -g daemon off
-#lnginx -g 'daemon off;'
-#yarn serve
 nginx -g "daemon off;"

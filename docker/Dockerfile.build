@@ -3,7 +3,6 @@ FROM ${BASE_IMGAGE}
 WORKDIR /app
 
 COPY . ./
-#COPY ping.conf /etc/nginx/conf.d/default.conf
 COPY ping.conf /etc/nginx/sites-available/default
 COPY  docker/entrypoint.sh /opt/entrypoint.sh
 
