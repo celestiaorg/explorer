@@ -21,6 +21,7 @@ jobs:
       packageName: explorer-base
 
   docker-explorer:
+    needs: docker-explorer-base
     permissions:
       contents: write
       packages: write
