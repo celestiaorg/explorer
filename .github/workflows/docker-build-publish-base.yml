@@ -14,7 +14,7 @@ env:
   REGISTRY: ghcr.io
   MAINTAINER: ${{ github.repository_owner }}
   DESCRIPTION: "${{ github.repository_owner }} repository ${{ github.repository }}"
-  BASE_NAME: "explorer"
+  BASE_NAME: "explorer-base"
 
 jobs:
   prepare-env:
@@ -94,4 +94,4 @@ jobs:
           # yamllint enable
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          file: docker/Dockerfile.build
+          file: docker/Dockerfile.base
