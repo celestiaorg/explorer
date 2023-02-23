@@ -2,9 +2,9 @@ ARG BASE_IMGAGE=ghcr.io/celestiaorg/explorer-base:latest
 FROM ${BASE_IMGAGE}
 
 # User data
-ARG UID=10001
-ARG GID=10001
-ARG USR_NAME=explorer
+ENV UID=10001
+ENV GID=10001
+ENV USR_NAME=explorer
 
 COPY --chown=${UID}:${GID} . ./
 COPY --chown=${UID}:${GID} ping.conf /etc/nginx/sites-available/default
