@@ -14,7 +14,7 @@ COPY --chown=${UID}:${GID} docker/entrypoint.sh /opt/entrypoint.sh
 RUN rm -rf src/chains/mainnet/* &&\
     rm -rf src/chains/testnet/*
 
-EXPOSE 80
+EXPOSE 80 8080
 
 STOPSIGNAL SIGQUIT
 
