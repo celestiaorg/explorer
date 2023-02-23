@@ -29,9 +29,7 @@ RUN wget -qO- https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$
   apt install -y yarn &&\
   node --version &&\
   npm --version &&\
-  yarn --version &&\
-  apt clean autoclean &&\
-  rm -rf /var/lib/{apt,dpkg,cache,log}/
+  yarn --version
 
 # Forward request and error logs to Docker log collector
 # https://www.nginx.com/blog/deploying-nginx-nginx-plus-docker/
