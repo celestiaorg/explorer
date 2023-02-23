@@ -1,14 +1,18 @@
 ARG BASE_IMGAGE=ghcr.io/celestiaorg/explorer-base:latest
 FROM ${BASE_IMGAGE}
-WORKDIR /app
 
-COPY . ./
-COPY ping.conf /etc/nginx/sites-available/default
-COPY  docker/entrypoint.sh /opt/entrypoint.sh
+# User data
+ARG UID=10001
+ARG GID=10001
+ARG USR_NAME=explorer
+
+COPY --chown=${UID}:${GID} . ./
+COPY --chown=${UID}:${GID} ping.conf /etc/nginx/sites-available/default
+COPY --chown=${UID}:${GID} docker/nginx.conf /etc/nginx/nginx.conf
+COPY --chown=${UID}:${GID} docker/entrypoint.sh /opt/entrypoint.sh
 
 RUN rm -rf src/chains/mainnet/* &&\
-    rm -rf src/chains/testnet/* &&\
-    rm -rf /var/lib/apt/lists;
+    rm -rf src/chains/testnet/*
 
 EXPOSE 80
 

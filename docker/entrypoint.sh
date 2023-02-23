@@ -1,6 +1,8 @@
 #!/bin/bash
-PATH_TO_CHAINS="/app/src/chains/"
+PATH_TO_CHAINS="/home/${USR_NAME}/src/chains/"
 DEFAULT_CHAIN_NAME="arabica"
+
+whoami
 
 # check if the chains folder is empty, if so, we generate a default one
 if [ -z "$(ls -A $PATH_TO_CHAINS/mainnet/)" ]; then
