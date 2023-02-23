@@ -1,0 +1,21 @@
+ARG BASE_IMGAGE=ghcr.io/celestiaorg/explorer-base:latest
+FROM ${BASE_IMGAGE}
+
+# User data
+ENV UID=10001
+ENV GID=10001
+ENV USR_NAME=explorer
+
+COPY --chown=${UID}:${GID} . ./
+COPY --chown=${UID}:${GID} ping.conf /etc/nginx/sites-available/default
+COPY --chown=${UID}:${GID} docker/nginx.conf /etc/nginx/nginx.conf
+COPY --chown=${UID}:${GID} docker/entrypoint.sh /opt/entrypoint.sh
+
+RUN rm -rf src/chains/mainnet/* &&\
+    rm -rf src/chains/testnet/*
+
+EXPOSE 80
+
+STOPSIGNAL SIGQUIT
+
+ENTRYPOINT ["/bin/bash", "/opt/entrypoint.sh"]
