@@ -2,7 +2,7 @@
 FROM --platform=$BUILDPLATFORM ubuntu:23.04
 
 ENV NODE_VERSION=16.0.0
-#ENV BUILDPLATFORM=$BUILDPLATFORM
+ENV ARCH=`echo $BUILDPLATFORM | tr "/" "-"`
 
 # User data
 ENV UID=10001
@@ -20,10 +20,9 @@ RUN apt update &&\
     nginx
 
 # Install all the packages needed
-RUN echo ${BUILDPLATFORM} &&\
-  wget -qO- https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-${BUILDPLATFORM}.tar.gz | tar xvz -C /usr/local/ &&\
-  ln -s /usr/local/node-v${NODE_VERSION}-${BUILDPLATFORM}/bin/node /usr/local/bin/node &&\
-  ln -s /usr/local/node-v${NODE_VERSION}-${BUILDPLATFORM}/bin/npm /usr/local/bin/npm &&\
+RUN wget -qO- https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-${ARCH}.tar.gz | tar xvz -C /usr/local/ &&\
+  ln -s /usr/local/node-v${NODE_VERSION}-${ARCH}/bin/node /usr/local/bin/node &&\
+  ln -s /usr/local/node-v${NODE_VERSION}-${ARCH}/bin/npm /usr/local/bin/npm &&\
   ln -s /usr/local/bin/node /usr/local/bin/nodejs &&\
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&\
