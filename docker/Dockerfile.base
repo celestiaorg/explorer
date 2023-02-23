@@ -1,7 +1,7 @@
-#FROM ubuntu:23.04
 FROM --platform=$BUILDPLATFORM ubuntu:23.04
 
 ENV NODE_VERSION=16.0.0
+ARG BUILDPLATFORM
 
 # User data
 ENV UID=10001
@@ -19,22 +19,20 @@ RUN apt update &&\
     nginx
 
 # Install all the packages needed
-RUN echo "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-$(echo $BUILDPLATFORM |tr "/" "-").tar.gz"
-RUN echo "$(echo $BUILDPLATFORM |tr "/" "-").tar.gz"
 
-RUN wget -qO- https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-$(echo $BUILDPLATFORM |tr "/" "-").tar.gz | tar xvz -C /usr/local/ &&\
-  ln -s /usr/local/node-v${NODE_VERSION}-$(echo $BUILDPLATFORM| tr "/" "-")/bin/node /usr/local/bin/node &&\
-  ln -s /usr/local/node-v${NODE_VERSION}-$(echo $BUILDPLATFORM| tr "/" "-")/bin/npm /usr/local/bin/npm &&\
-  ln -s /usr/local/bin/node /usr/local/bin/nodejs &&\
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&\
-  apt update &&\
-  apt install -y yarn &&\
-  node --version &&\
-  npm --version &&\
-  yarn --version &&\
-  apt clean autoclean &&\
-  rm -rf /var/lib/{apt,dpkg,cache,log}/
+RUN wget -qO- https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-$(echo $BUILDPLATFORM |tr '/' '-').tar.gz | tar xvz -C /usr/local/ &&\
+    ln -s /usr/local/node-v${NODE_VERSION}-$(echo $BUILDPLATFORM| tr '/' '-')/bin/node /usr/local/bin/node &&\
+    ln -s /usr/local/node-v${NODE_VERSION}-$(echo $BUILDPLATFORM| tr '/' '-')/bin/npm /usr/local/bin/npm &&\
+    ln -s /usr/local/bin/node /usr/local/bin/nodejs &&\
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&\
+    apt update &&\
+    apt install -y yarn &&\
+    node --version &&\
+    npm --version &&\
+    yarn --version &&\
+    apt clean autoclean &&\
+    rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 # Forward request and error logs to Docker log collector
 # https://www.nginx.com/blog/deploying-nginx-nginx-plus-docker/
