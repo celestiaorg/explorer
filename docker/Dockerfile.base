@@ -21,9 +21,9 @@ RUN apt update &&\
 
 # Install all the packages needed
 RUN echo ${BUILDPLATFORM} &&\
-  wget -qO- https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-${BUILDPLATFORM}.tar.gz | tar xvz -C /usr/local/ &&\
-  ln -s /usr/local/node-v${NODE_VERSION}-linux-${BUILDPLATFORM}/bin/node /usr/local/bin/node &&\
-  ln -s /usr/local/node-v${NODE_VERSION}-linux-${BUILDPLATFORM}/bin/npm /usr/local/bin/npm &&\
+  wget -qO- https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-${BUILDPLATFORM}.tar.gz | tar xvz -C /usr/local/ &&\
+  ln -s /usr/local/node-v${NODE_VERSION}-${BUILDPLATFORM}/bin/node /usr/local/bin/node &&\
+  ln -s /usr/local/node-v${NODE_VERSION}-${BUILDPLATFORM}/bin/npm /usr/local/bin/npm &&\
   ln -s /usr/local/bin/node /usr/local/bin/nodejs &&\
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&\
