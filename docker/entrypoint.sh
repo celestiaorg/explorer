@@ -46,7 +46,7 @@ yarn build
 echo "================================================"
 echo "[INFO] The service has been built"
 echo "================================================"
-echo "[INFO] Copying the dist folder to the nginx"
+echo "[INFO] Copying the dist resources to the nginx folder"
 echo "================================================"
 cp -R dist/* /usr/share/nginx/html/
 
