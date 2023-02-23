@@ -1,7 +1,8 @@
-FROM ubuntu:23.04
+#FROM ubuntu:23.04
+FROM --platform=$BUILDPLATFORM ubuntu:23.04
 
 ENV NODE_VERSION=16.0.0
-ENV ARCH=x64
+ENV ARCH=$BUILDPLATFORM
 
 # User data
 ENV UID=10001
@@ -25,12 +26,13 @@ RUN wget -qO- https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$
   ln -s /usr/local/bin/node /usr/local/bin/nodejs &&\
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&\
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&\
-  apt update
-RUN apt install -y yarn
-
-RUN node --version &&\
+  apt update &&\
+  apt install -y yarn &&\
+  node --version &&\
   npm --version &&\
-  yarn --version
+  yarn --version &&\
+  apt clean autoclean &&\
+  rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 # Forward request and error logs to Docker log collector
 # https://www.nginx.com/blog/deploying-nginx-nginx-plus-docker/
