@@ -21,7 +21,7 @@
     "@cosmjs/ledger-amino": "^0.28.4",
     "@cosmjs/math": "^0.28.4",
     "@cosmjs/proto-signing": "^0.28.4",
-    "@cosmjs/stargate": "0.28.4",
+    "@cosmjs/stargate": "0.28.5",
     "@hanchon/signature-to-pubkey": "^1.0.0",
     "@intlify/vue-i18n-loader": "^2.1.2",
     "@ledgerhq/hw-app-eth": "^6.28.2",
